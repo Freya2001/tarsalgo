@@ -18,6 +18,7 @@ namespace tarsalgo
             List<int> bentlev = new List<int>();
             SortedDictionary<int, int> athaladasok = new SortedDictionary<int, int>();
             int letszam = 0;
+            int osszperc = 0;
             while (readlinesuccesful)
             {
                 string line = ajto.ReadLine();
@@ -117,6 +118,9 @@ namespace tarsalgo
             #endregion
             #region 7.feladat
             Console.WriteLine("7. feladat");
+            
+            int bementora = 0;
+            int bementperc = 0;
             for (int i = 0; i < azon.Count; i++)
             {
                 if (azon[i] == adottazon)
@@ -124,18 +128,29 @@ namespace tarsalgo
                     if (allapot[i] == "be")
                     {
                         Console.Write(ora[i] + ":" + perc[i] + "-");
+                        bementora = ora[i]*60;
+                        bementperc = perc[i];
                     }
                     else
                     {
                         Console.Write(ora[i] + ":" + perc[i] + '\n');
+                        osszperc += ora[i] * 60 - bementora + perc[i] - bementperc;
+                        bementora = 0;
                     }
+
                 }
             }
             Console.Write('\n');
             #endregion
             #region 8.feladat
             Console.WriteLine("8. feladat");
-            Console.WriteLine($"");
+            string helyzet = "nem volt a társalgóban";
+            if (bementora != 0)
+            {
+                helyzet = "a társalgóban volt";
+                osszperc += 15 * 60 - bementora - bementperc;
+            }
+            Console.WriteLine($"A(z) {adottazon}. személy összesen {osszperc} percet volt bent, a megfigyelés végén {helyzet}.");
             #endregion
         }
     }
