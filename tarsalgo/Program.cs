@@ -15,7 +15,9 @@ namespace tarsalgo
             List<int> perc = new List<int>();
             List<int> azon = new List<int>();
             List<string> allapot = new List<string>();
+            List<int> bentlev = new List<int>();
             SortedDictionary<int, int> athaladasok = new SortedDictionary<int, int>();
+            int letszam = 0;
             while (readlinesuccesful)
             {
                 string line = ajto.ReadLine();
@@ -30,6 +32,18 @@ namespace tarsalgo
                 int aktAzon = Int32.Parse(tordeltsor[2]);
                 azon.Add(aktAzon);
                 allapot.Add(tordeltsor[3]);
+
+                // 5. feladathoz kell
+                if (tordeltsor[3] == "be")
+                {
+                    letszam += 1;
+                    bentlev.Add(letszam);
+                }
+                else
+                {
+                    letszam -= 1;
+                    bentlev.Add(letszam);
+                }
 
                 // harmadik feladathoz beolvasas
                 if (athaladasok.ContainsKey(aktAzon))
@@ -59,6 +73,7 @@ namespace tarsalgo
             #endregion
             #region 3.feladat
             StreamWriter athaladas = new StreamWriter(@"..\..\..\athaladas.txt");
+            
             foreach (var item in athaladasok)
             {
                 athaladas.WriteLine(item.Key + " " + item.Value);
@@ -67,19 +82,60 @@ namespace tarsalgo
             athaladas.Close();
             #endregion
             #region 4.feladat
+            Console.WriteLine("4. feladat");
+            string bentmaradtak = "";
+            foreach (var item in athaladasok)
+            {
+                if (item.Value % 2 != 0)
+                {
+                    bentmaradtak += item.Key + " ";
+                }
 
+            }
+
+            Console.WriteLine($"A végén a társalgóban voltak: {bentmaradtak}");
+            Console.Write('\n');
             #endregion
             #region 5.feladat
-
+            Console.WriteLine("5. feladat");
+            int maxbentindex = 0;
+            for (int i = 1; i < bentlev.Count; i++)
+            {
+                if (bentlev[i] > bentlev[maxbentindex])
+                {
+                    maxbentindex = i;
+                }
+            }
+            Console.WriteLine($"{ora[maxbentindex]}:{perc[maxbentindex]}-kor voltak a legtöbben a társalgóban.");
+            Console.Write('\n');
             #endregion
             #region 6.feladat
-
+            Console.WriteLine("6. feladat");
+            Console.Write("Adja meg a személy azonosítóját! ");
+            int adottazon = Int32.Parse(Console.ReadLine());
+            Console.Write('\n');
             #endregion
             #region 7.feladat
-
+            Console.WriteLine("7. feladat");
+            for (int i = 0; i < azon.Count; i++)
+            {
+                if (azon[i] == adottazon)
+                {
+                    if (allapot[i] == "be")
+                    {
+                        Console.Write(ora[i] + ":" + perc[i] + "-");
+                    }
+                    else
+                    {
+                        Console.Write(ora[i] + ":" + perc[i] + '\n');
+                    }
+                }
+            }
+            Console.Write('\n');
             #endregion
             #region 8.feladat
-
+            Console.WriteLine("8. feladat");
+            Console.WriteLine($"");
             #endregion
         }
     }
